@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="patient_card_pdf_template_report">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="patient">
+                    <div class="col-md-6">
+                        <table
+                            style="width:243pt; height:153pt; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:5pt">
+                            <td style="width:33%;" valign="center">
+                                <table style="width:77pt; height:150pt" class="table-borderless">
+                                    <tr style="height:50%;">
+                                        <td align="center" valign="center">
+                                            <img t-att-src="image_data_uri(patient.image)"
+                                                style="max-height:75pt;max-width:90%;margin-top:5pt;margin-bottom:5pt;"
+                                                alt="Patient Image" />
+                                        </td>
+                                    </tr>
+
+
+                                    <!-- <tr style="height:50%;">
+                                        <td align="center" valign="center">
+                                            <img
+                                                t-att-src="'/report/barcode/Code128/%s'%(patient.name)"
+                                                width="140" height="70"
+                                                alt="Barcode" />
+                                        </td>
+                                    </tr> -->
+                                    <tr style="height:50%;">
+                                        <td align="center" valign="center">
+                                            <div t-field="patient.name"
+                                                t-options="{'widget':'barcode','symbology':'QR', 'width':100, 'height':100,
+                                    'img_style':'width:75px;height:75px;'}"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <!-- <tr style="height:50%;">
+                                        <td align="center" valign="center">
+                                            <img
+                                                src="/om_hospital/static/description/icon.png"
+                                                style="max-height:70pt;max-width:90%;margin-bottom:5pt;"
+                                                alt="Image is not loading" />
+                                        </td>
+                                    </tr> -->
+
+                                </table>
+                            </td>
+                            <td style="width:67%" valign="center">
+                                <table style="width:155pt; height:85pt" class="table-borderless">
+                                    <tr>
+                                        <th>
+                                            <div
+                                                style="font-size:15pt; margin-bottom:0pt;margin-top:40pt;"
+                                                align="center"> Name: <t t-esc="patient.name"
+                                                    style="text-success" />
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center"
+                                                style="font-size:15pt;margin-top:7pt;"> Age: <t
+                                                    t-esc="patient.age" /> Year </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center"
+                                                style="font-size:15pt;margin-top:7pt;"> Gender: <t
+                                                    t-esc="patient.gender" />
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <record id="patient_profile_card_report" model="ir.actions.report">
+        <field name="name">Patient Card </field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.patient_card_pdf_template_report</field>
+        <field name="report_file">om_hospital.patient_card_pdf_template_report</field>
+        <field name="print_report_name">'Patient Card'</field>
+        <field name="binding_model_id" ref="model_hospital_patient" />
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

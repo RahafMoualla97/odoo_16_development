@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_view_id_inherit_sale" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="sale_description" />
+
+
+            </field>
+
+        </field>
+    </record>
+
+    <menuitem
+        id="sale_appointment_menu"
+        name="Appointments"
+        sequence="20"
+        parent="sale.sale_order_menu"
+        action="hospital_appointment_action"
+    />
+
+    <menuitem
+        id="sales_crm_appointment_menu"
+        name="Appointments"
+        sequence="4"
+        parent="crm.crm_menu_sales"
+        action="hospital_appointment_action"
+    />
+
+
+</odoo>

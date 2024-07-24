@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_all_patient_list">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure" />
+                    <div class="text-center">
+                        <h2>Patients</h2>
+                    </div>
+                    <br />
+                    <table class="table table-bordered mt32">
+                        <thead>
+                            <tr>
+                                <th name="th_name" class="text-left">
+                                    <span>Patient Name</span>
+                                </th>
+                                <th name="th_gender" class="text-left">
+                                    <span>Gender</span>
+                                </th>
+                                <th name="th_age" class="text-left">
+                                    <span>Age</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <t t-esc="docs" />
+                        <t t-foreach="docs" t-as="line">
+                            <tr>
+                                <td>
+                                    <span t-field="line.name" />
+                                </td>
+                                <td>
+                                    <span t-field="line.gender" />
+                                </td>
+                                <td>
+                                    <span t-field="line.age" />
+                                </td>
+                            </tr>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </t>
+
+    </template>
+    <record id="report_all_patient_details_action" model="ir.actions.report">
+        <field name="name">Patient Details</field>
+        <field name="model">appointment.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.report_all_patient_list</field>
+        <field name="report_file">om_hospital.report_all_patient_list</field>
+        <field name="binding_model_id" ref="model_appointment_report_wizard" />
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

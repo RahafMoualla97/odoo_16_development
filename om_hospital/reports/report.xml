@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_appointment_details">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure" />
+                    <div class="text-center">
+                        <h2>Appointment Details</h2>
+                    </div>
+                    <table class="table table-borderless border-0">
+                        <tr>
+                            <td class="border-0">Patient : <span>
+                                    <t t-if="form_data.get('patient_id')">
+                                        <t t-esc="form_data['patient_id'][1]" />
+                                    </t>
+                                </span></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0">Date From : <span>
+                                    <t t-if="form_data.get('date_from')">
+                                        <t t-esc="form_data['date_from']" />
+                                    </t>
+                                </span></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0">Date To : <span>
+                                    <t t-if="form_data.get('date_to')">
+                                        <t t-esc="form_data['date_to']" />
+                                    </t>
+                                </span></td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table class="table table-bordered mt32">
+                        <thead>
+                            <tr>
+                                <th name="th_reference" class="text-left">
+                                    <span>Reference</span>
+                                </th>
+                                <!-- <th name="th_desc" class="text-left">
+                                    <span>Description</span>
+                                </th> -->
+                                <th name="th_age" class="text-left">
+                                    <span>Age</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <t t-set="appointment_count" t-value="0" />
+                        <t t-foreach="appointments" t-as="line">
+                            <t t-set="appointment_count" t-value="appointment_count + 1" />
+                            <tr>
+                                <td>
+                                    <span t-esc="line['name']" />
+                                </td>
+                                <!-- <td>
+                                    <span t-esc="line['note']" />
+                                </td> -->
+                                <td>
+                                    <span t-esc="line['age']" />
+                                </td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td>
+                                <strong>Total Appointments</strong>
+                            </td>
+                            <td>
+                                <t t-esc="appointment_count" />
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </t>
+        </t>
+
+    </template>
+
+
+    <template id="report_patient_details">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="om_hospital.sub_patient_template" />
+
+            </t>
+        </t>
+    </template>
+
+
+    <template id="sub_patient_template">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>
+                    <span t-field="o.name" />
+                </h2>
+                <!-- <p t-att="['style','background-color:red;']">HELLOOOO</p>
+                <p t-att="{'style':'background-color:green;', 'href':'www.google.com'}">HELLOOOO</p> -->
+                <!-- <t
+                            t-if="o.name == 'Ali'">
+                            <p>Hello Ali..!</p>
+                            <p>Hello <span t-esc="o.name" />..!</p>
+                        </t>
+                        <t
+                            t-elif="o.name == 'Yara' ">
+                            <p>Hello <span t-field="o.name" /></p>
+                        </t>
+                        <t
+                            t-else="">
+                            <p>No this is not Ali <br /></p>
+                            <p>This is <span t-field="o.name" /></p>
+                        </t>
+                        Looping statement Topic
+                         <h1
+                            t-esc="o.name" /><br /> sequence of foreach loop:- <span t-esc="o_index" /><br />
+                        Is this first Index? <span t-esc="o_first" /> <br /> Is this last Index? <span
+                            t-esc="o_last" />
+                            
+                            <p t-esc="o" />
+                        <p t-esc="o_value" />
+                        odd or even
+                             <p t-esc="o_parity" />
+                        variable tutorial
+                               <t t-set="a"
+                            t-value="123" />
+                               <t t-esc="a" /> -->
+                <h4> Responsible: <span
+                        t-field="o.responsible_id" /></h4>
+                <hr />
+                <h4
+                    class="text-success ">Patient Appointments Details </h4>
+                <table
+                    class="table table-bordered">
+                    <head>
+                        <tr>
+                            <th>Order Reference</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Description</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Status</th>
+
+                        </tr>
+                    </head>
+                    <body>
+                        <t t-foreach="o.appointment_ids" t-as="appointment">
+                            <tr class="text-center">
+                                <td>
+                                    <span t-field="appointment.name" />
+                                </td>
+                                <td>
+                                    <span t-field="appointment.age" />
+                                </td>
+                                <td>
+                                    <span t-field="appointment.gender" />
+                                </td>
+                                <td>
+                                    <span t-field="appointment.note" />
+                                </td>
+                                <td>
+                                    <span t-field="appointment.doctor_id" />
+                                </td>
+                                <td>
+                                    <span t-field="appointment.date_appointment" />
+                                </td>
+
+                                <td>
+                                    <span t-field="appointment.state" />
+                                </td>
+                            </tr>
+                        </t>
+                    </body>
+                </table>
+
+            </div>
+        </t>
+    </template>
+
+    <record id="patient_details_paperformat" model="report.paperformat">
+        <field name="name">Patient Details Peper Format</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="margin_top">45</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="patient_details" model="ir.actions.report">
+        <field name="name">Patient Details</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.report_patient_details</field>
+        <field name="report_file">om_hospital.report_patient_details</field>
+        <field name="binding_model_id" ref="model_hospital_patient" />
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="om_hospital.patient_details_paperformat"></field>
+    </record>
+
+    <record id="report_appointments_action" model="ir.actions.report">
+        <field name="name">Appointment Details</field>
+        <field name="model">appointment.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.report_appointment_details</field>
+        <field name="report_file">om_hospital.report_appointment_details</field>
+        <field name="binding_model_id" ref="model_appointment_report_wizard" />
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>
